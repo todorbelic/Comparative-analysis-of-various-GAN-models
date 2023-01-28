@@ -1,5 +1,5 @@
 import tensorflow as tf
-from keras.layers import Dense, Reshape, Flatten, Conv2D, Conv2DTranspose, ReLU, LeakyReLU, Dropout
+from tensorflow.keras.layers import Dense, Reshape, Flatten, Conv2D, Conv2DTranspose, ReLU, LeakyReLU, Dropout
 
 
 class Generator(tf.keras.Model):
@@ -26,3 +26,8 @@ class Generator(tf.keras.Model):
         x = self.cnv4_layer(x, training=training)
 
         return x
+
+    def summary(self):
+        x = tf.keras.Input(shape=(self.n_nodes, self.latent_dim))
+        model = tf.keras.Model(inputs=[x], outputs=self.call(x))
+        return model.summary()

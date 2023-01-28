@@ -1,17 +1,18 @@
 import numpy as np
 
-from keras.models import Sequential # for assembling a Neural Network model
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import Adam
 
 from dcgan_generator import Generator
 from dcgan_discriminator import Discriminator
-from utils import real_samples, fake_samples, latent_vector, performance_summary
+from utils import real_samples, fake_samples, latent_vector, performance_summary, get_data
 
 
 class DCGANModel:
     def __init__(self, generator, discriminator):
         self.generator = generator
         self.discriminator = discriminator
-        self.discriminator.compile(loss='binary_crossentropy', optimizer='adam', metrics='accuracy')
+        self.discriminator.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.0002, beta_1=0.5), metrics='accuracy')
 
         self.model = self.__get_model(generator, discriminator)
 
@@ -21,7 +22,7 @@ class DCGANModel:
         model = Sequential(name="DCGAN")
         model.add(generator)
         model.add(discriminator)
-        model.compile(loss='binary_crossentropy', optimizer='adam')
+        model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.0002, beta_1=0.5))
         return model
 
     def train(self, dataset, n_epochs=1001, n_batch=32, n_eval=100):
@@ -61,3 +62,12 @@ class DCGANModel:
                 print("Discriminator Loss ", discriminator_loss)
                 print("Generator Loss: ", generator_loss)
                 performance_summary(self.generator, self.discriminator, dataset, latent_dim)
+
+
+if __name__ == "__main__":
+    generator = Generator(100)
+    discriminator = Discriminator((64, 64, 3))
+
+    gan_model = DCGANModel(generator, discriminator)
+    data_lowres = get_data()
+    gan_model.train(data_lowres, n_epochs=1001, n_batch=64, n_eval=100)

@@ -1,4 +1,6 @@
 # utils.py
+import os
+import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -58,3 +60,14 @@ def performance_summary(generator, discriminator, dataset, latent_dim, n=50):
             axs[i, j].matshow(x_fake_inv_trans[k])
             k = k + 1
     plt.show()
+
+
+def get_data():
+    img_location = '../data'
+    data_lowres = []
+    for img in list(os.listdir(img_location)):
+        image = cv2.imread(img_location + '/' + img)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image_lowres = cv2.resize(image, (64, 64))
+        data_lowres.append(image_lowres)
+    return np.array(data_lowres, dtype="float") / 255.0

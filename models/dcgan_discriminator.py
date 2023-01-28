@@ -1,5 +1,5 @@
 import tensorflow as tf
-from keras.layers import Dense, Reshape, Flatten, Conv2D, Conv2DTranspose, ReLU, LeakyReLU, Dropout
+from tensorflow.keras.layers import Dense, Reshape, Flatten, Conv2D, Conv2DTranspose, ReLU, LeakyReLU, Dropout
 
 
 class Discriminator(tf.keras.Model):
@@ -24,3 +24,8 @@ class Discriminator(tf.keras.Model):
         x = Flatten()(x)
         x = Dropout(0.3)(x)
         return self.output_layer(x)
+
+    def summary(self):
+        x = tf.keras.Input(shape=self.in_shape)
+        model = tf.keras.Model(inputs=[x], outputs=self.call(x))
+        return model.summary()
