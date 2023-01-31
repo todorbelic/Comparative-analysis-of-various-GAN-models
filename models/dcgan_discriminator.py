@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.layers import Dense, Reshape, Flatten, Conv2D, Conv2DTranspose, ReLU, LeakyReLU, Dropout
-
+cross_entropy = tf.keras.losses.BinaryCrossentropy()
 
 class Discriminator(tf.keras.Model):
     def __init__(self, in_shape):
@@ -24,6 +24,12 @@ class Discriminator(tf.keras.Model):
         x = Flatten()(x)
         x = Dropout(0.3)(x)
         return self.output_layer(x)
+
+    def discriminator_loss(self, real_output, fake_output):
+        real_loss = cross_entropy(tf.ones_like(real_output), real_output)
+        fake_loss = cross_entropy(tf.zeros_like(fake_output), fake_output)
+        total_loss = real_loss + fake_loss
+        return total_loss
 
     def summary(self):
         x = tf.keras.Input(shape=self.in_shape)
