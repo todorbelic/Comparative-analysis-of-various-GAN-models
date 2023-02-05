@@ -3,7 +3,7 @@ import os
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-
+import tensorflow as tf
 
 def real_samples(n, dataset):
     # Samples of real data
@@ -35,19 +35,19 @@ def fake_samples(generator, latent_dim, n):
 
 def performance_summary(generator, discriminator, dataset, latent_dim, n=50):
     # Get samples of the real data
-    x_real, y_real = real_samples(n, dataset)
+    # x_real, y_real = real_samples(n, dataset)
     # Evaluate the descriminator on real data
-    _, real_accuracy = discriminator.evaluate(x_real, y_real, verbose=0)
+    #_, real_accuracy = discriminator.evaluate(x_real, y_real, verbose=0)
 
     # Get fake (generated) samples
     x_fake, y_fake = fake_samples(generator, latent_dim, n)
     # Evaluate the descriminator on fake (generated) data
-    _, fake_accuracy = discriminator.evaluate(x_fake, y_fake, verbose=0)
+    #_, fake_accuracy = discriminator.evaluate(x_fake, y_fake, verbose=0)
 
     # summarize discriminator performance
     print("*** Evaluation ***")
-    print("Discriminator Accuracy on REAL images: ", real_accuracy)
-    print("Discriminator Accuracy on FAKE (generated) images: ", fake_accuracy)
+    #print("Discriminator Accuracy on REAL images: ", real_accuracy)
+    #print("Discriminator Accuracy on FAKE (generated) images: ", fake_accuracy)
 
     # Display 6 fake images
     x_fake_inv_trans = x_fake.numpy().reshape(-1, 1)
@@ -64,10 +64,7 @@ def performance_summary(generator, discriminator, dataset, latent_dim, n=50):
 
 def get_data():
     img_location = '../data'
-    data_lowres = []
-    for img in list(os.listdir(img_location)):
-        image = cv2.imread(img_location + '/' + img)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image_lowres = cv2.resize(image, (64, 64))
-        data_lowres.append(image_lowres)
-    return np.array(data_lowres, dtype="float") / 255.0
+    dataset = tf.keras.preprocessing.image_dataset_from_directory(
+        directory=img_location, label_mode=None, image_size=(64, 64), batch_size=32, shuffle=True
+    ).map(lambda x: x / 255.0)
+    return dataset
