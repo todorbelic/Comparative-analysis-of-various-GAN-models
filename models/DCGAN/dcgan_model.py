@@ -1,12 +1,8 @@
-import numpy as np
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.optimizers import Adam
 from tqdm import tqdm
-from dcgan_generator import Generator
-from dcgan_discriminator import Discriminator
-from utils import real_samples, fake_samples, latent_vector, performance_summary, get_data
-
+from models.DCGAN.dcgan_generator import Generator
+from models.DCGAN.dcgan_discriminator import Discriminator
+from models.utils import performance_summary, get_data
 generator_optimizer = tf.keras.optimizers.Adam(2e-4)
 discriminator_optimizer = tf.keras.optimizers.Adam(2e-4)
 
@@ -55,7 +51,6 @@ class DCGANModel:
 if __name__ == "__main__":
     generator = Generator(128)
     discriminator = Discriminator((64, 64, 3))
-
     gan_model = DCGANModel(generator, discriminator)
     data_lowres = get_data()
     gan_model.train(data_lowres, n_epochs=100, n_batch=32, n_eval=5)

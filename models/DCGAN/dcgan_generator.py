@@ -2,6 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Reshape, Conv2D, Conv2DTranspose, LeakyReLU, BatchNormalization
 cross_entropy = tf.keras.losses.BinaryCrossentropy()
 
+
 class Generator(tf.keras.Model):
     def __init__(self, latent_dim):
         super().__init__()
@@ -35,6 +36,7 @@ class Generator(tf.keras.Model):
         x = self.cnv4_layer(x, training=training)
         return x
 
+    @staticmethod
     def loss(fake_output):
         return cross_entropy(tf.ones_like(fake_output), fake_output)
 

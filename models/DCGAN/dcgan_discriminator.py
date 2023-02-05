@@ -25,6 +25,7 @@ class Discriminator(tf.keras.Model):
         x = Dropout(0.3)(x)
         return self.output_layer(x)
 
+    @staticmethod
     def discriminator_loss(self, real_output, fake_output):
         real_loss = cross_entropy(tf.ones_like(real_output), real_output)
         fake_loss = cross_entropy(tf.zeros_like(fake_output), fake_output)
