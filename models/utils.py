@@ -33,6 +33,19 @@ def fake_samples(generator, latent_dim, n):
     return X, y
 
 
+def generate_and_save_images(generator, epoch, test_input):
+    predictions = generator(test_input, training=False)
+
+    fig = plt.figure(figsize=(8, 8))
+
+    for i in range(predictions.shape[0]):
+        plt.subplot(4, 4, i + 1)
+        plt.imshow(predictions[i, :, :])
+
+        plt.axis('off')
+
+    plt.show()
+
 def performance_summary(generator, discriminator, dataset, latent_dim, n=50):
     # Get samples of the real data
     # x_real, y_real = real_samples(n, dataset)
