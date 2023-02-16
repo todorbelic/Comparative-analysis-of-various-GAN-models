@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Dense, Reshape, Conv2D, Conv2DTranspose, LeakyReLU, BatchNormalization
+from tensorflow.keras.layers import Dense, Reshape, Conv2DTranspose, BatchNormalization
 
 
 class Generator(tf.keras.Model):

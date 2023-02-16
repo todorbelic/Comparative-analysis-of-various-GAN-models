@@ -1,11 +1,8 @@
-import numpy as np
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.optimizers import Adam
 from tqdm import tqdm
 from generator import Generator
 from critic import Critic
-from models.utils import real_samples, fake_samples, latent_vector, performance_summary, get_data
+from models.utils import performance_summary, get_data
 
 generator_optimizer = tf.keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.0, beta_2=0.9)
 critic_optimizer = tf.keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.0, beta_2=0.9)

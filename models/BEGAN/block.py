@@ -1,12 +1,12 @@
 from tensorflow.keras import layers
 import tensorflow as tf
-from tensorflow.keras.layers import Dense, Reshape, Conv2D, Conv2DTranspose, LeakyReLU, BatchNormalization
+from tensorflow.keras.layers import Conv2D
 from models.BEGAN.resize import Resize
 
 
-class DecoderBlock(layers.Layer):
+class Block(layers.Layer):
     def __init__(self, n_filters1, n_filters2, required_dimension, kernel=(3, 3), stride=(1, 1)):
-        super(DecoderBlock, self).__init__()
+        super(Block, self).__init__()
         self.cnv1_layer = Conv2D(n_filters1, kernel, stride, padding='same', activation=tf.nn.elu)
         self.cnv2_layer = Conv2D(n_filters2, kernel, stride, padding='same', activation=tf.nn.elu)
         self.upsample_layer1 = Resize([required_dimension, required_dimension])

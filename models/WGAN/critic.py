@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Dense, Reshape, Flatten, Conv2D, BatchNormalization, ReLU, LeakyReLU, Dropout
+from tensorflow.keras.layers import Dense, Flatten, Conv2D, BatchNormalization, LeakyReLU, Dropout
 
 
 class Critic(tf.keras.Model):
